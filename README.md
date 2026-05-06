@@ -1038,13 +1038,12 @@ License
 
 TBD.
 
-
 ---
 
 ## 10. MVP implementation priority
 
 | Order | Component | Build first because |
-|---:|---|---|
+| ---: | --- | --- |
 | 1 | Supabase schema + RLS | Data model controls the whole system |
 | 2 | Go control API | Central API for frontend and edge agents |
 | 3 | Next.js admin dashboard | Needed to operate policies/jobs/nodes |
