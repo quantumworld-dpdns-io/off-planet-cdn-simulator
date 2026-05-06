@@ -1,0 +1,3 @@
+# Relax defaults for long-form README and docs.
+config:
+  MD013: false

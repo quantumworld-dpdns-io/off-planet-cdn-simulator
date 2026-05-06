@@ -13,6 +13,7 @@ A content-distribution simulator for Moon/Mars habitats, research bases, and rem
 git clone https://github.com/quantumworld-dpdns-io/off-planet-cdn-simulator.git
 cd off-planet-cdn-simulator
 ```
+
 What it does:
 Optimizes what data should be cached locally when bandwidth is scarce and latency is extreme.
 
@@ -26,9 +27,10 @@ Local model/package registry mirror
 
 Wild angle:
 A CDN designed for places where “refresh the page” may cost minutes, hours, or mission-critical bandwidth.
+
 ## Project Structure
 
-```
+```text
 .
 ├── src/          # Application source code
 ├── docs/         # Architecture decisions, API specs, runbooks
@@ -54,26 +56,27 @@ Ship / aircraft / research station offline CDN
 Campus / hospital emergency cache
 Local model/package/document registry mirror
 Mission-critical manual and medical document preloading
+
 1. Recommended tech stack
 Core architecture
-Layer	Stack	Role
-Frontend	Next.js	Admin console + user portal
-Backend API	Go	Control plane, policy API, scheduler, auth integration, Supabase integration
-Edge runtime	Rust	High-performance cache agent, eviction engine, registry mirror, local proxy
-Database	Supabase Postgres	Metadata, policies, tenants, audit logs, cache catalog
-Auth	Supabase Auth + RLS	User/admin auth, org isolation, role-based access
-Object storage	Supabase Storage / S3-compatible storage	Content manifests, metadata exports, cache reports
-Hot cache / queues	Redis or Dragonfly	Priority queues, leases, job state, node heartbeats
-Vector search	Qdrant or LanceDB	Semantic search over manuals, packages, models, mission docs
-Local analytics	DuckDB + Apache Arrow	Offline cache analytics, content popularity, bandwidth reports
-Rust analytics engine	Apache DataFusion	Embedded query engine inside Rust edge/control tools
-Observability	OpenTelemetry	Distributed tracing, cache decision traces, agent telemetry
-Runtime security	Cilium Tetragon	Edge-node runtime visibility and enforcement
-Plugin sandbox	Wasmtime + WASI	Safe policy plugins and custom cache scoring functions
-AI local assistant	Ollama / llama.cpp / vLLM	Local summarization, cache recommendation, admin copilot
-Agent integration	MCP + OpenAPI Tool Calling	Let AI agents call cache, policy, simulation, and audit tools
-Future crypto	PQC Libraries, RISC Zero, Noir	Quantum-safe comms, verifiable cache proofs, proof-of-delivery
-Future confidential compute	Apache Teaclave	TEE-based handling of sensitive manifests or private mission data
+Layer    Stack    Role
+Frontend    Next.js    Admin console + user portal
+Backend API    Go    Control plane, policy API, scheduler, auth integration, Supabase integration
+Edge runtime    Rust    High-performance cache agent, eviction engine, registry mirror, local proxy
+Database    Supabase Postgres    Metadata, policies, tenants, audit logs, cache catalog
+Auth    Supabase Auth + RLS    User/admin auth, org isolation, role-based access
+Object storage    Supabase Storage / S3-compatible storage    Content manifests, metadata exports, cache reports
+Hot cache / queues    Redis or Dragonfly    Priority queues, leases, job state, node heartbeats
+Vector search    Qdrant or LanceDB    Semantic search over manuals, packages, models, mission docs
+Local analytics    DuckDB + Apache Arrow    Offline cache analytics, content popularity, bandwidth reports
+Rust analytics engine    Apache DataFusion    Embedded query engine inside Rust edge/control tools
+Observability    OpenTelemetry    Distributed tracing, cache decision traces, agent telemetry
+Runtime security    Cilium Tetragon    Edge-node runtime visibility and enforcement
+Plugin sandbox    Wasmtime + WASI    Safe policy plugins and custom cache scoring functions
+AI local assistant    Ollama / llama.cpp / vLLM    Local summarization, cache recommendation, admin copilot
+Agent integration    MCP + OpenAPI Tool Calling    Let AI agents call cache, policy, simulation, and audit tools
+Future crypto    PQC Libraries, RISC Zero, Noir    Quantum-safe comms, verifiable cache proofs, proof-of-delivery
+Future confidential compute    Apache Teaclave    TEE-based handling of sensitive manifests or private mission data
 2. Product modules
 A. Control Plane
 
@@ -165,39 +168,40 @@ Pages:
 /app/downloads
 /app/offline-status
 3. Useful tools from software-tools.zip
-Tool / concept	Use in this project	Priority
-Redis / Dragonfly	Cache metadata, sync queues, priority queues, node heartbeat, leases	MVP
-Qdrant / LanceDB	Semantic retrieval over manuals, engineering docs, medical content, cached models	MVP
-DuckDB	Local analytics on cache hit/miss logs and bandwidth usage	MVP
-Apache Arrow	Efficient columnar interchange between Rust analytics and local reports	MVP
-Apache DataFusion	Rust-native analytical queries inside edge agent or reporting service	Phase 2
-OpenTelemetry	Trace cache decisions, agent sync behavior, failed fetches, model recommendations	MVP
-MCP	Let an AI/admin agent query cache status, generate preload plans, inspect incidents	Phase 2
-OpenAPI Tool Calling	Expose safe HTTP tools to agents and admin automations	Phase 2
-Ollama / llama.cpp	Local model for summarizing documents and generating cache recommendations offline	Phase 2
-vLLM / SGLang	High-throughput central model serving if deployed in stronger infra	Phase 3
-Wasmtime / WASI	Run custom cache-priority and eviction plugins safely	Phase 2
-Fermyon Spin	Lightweight edge functions for custom filters or local tools	Optional
-Cilium Tetragon	Runtime visibility for edge nodes and cache agents	Phase 2
-PQC Libraries	Quantum-safe signing / key exchange for long-life comms	Phase 3
-RISC Zero / Noir	Proof of cache integrity, proof of contact, proof of delivery	Phase 3
-Apache Teaclave	Confidential computation for sensitive manifests or mission/private data	Phase 3
-Flower / NVIDIA FLARE	Federated learning for cache prediction across disconnected sites	Experimental
-Iceberg / Polaris / Trino	Long-term lakehouse for multi-site telemetry and mission analytics	Phase 3
+Tool / concept    Use in this project    Priority
+Redis / Dragonfly    Cache metadata, sync queues, priority queues, node heartbeat, leases    MVP
+Qdrant / LanceDB    Semantic retrieval over manuals, engineering docs, medical content, cached models    MVP
+DuckDB    Local analytics on cache hit/miss logs and bandwidth usage    MVP
+Apache Arrow    Efficient columnar interchange between Rust analytics and local reports    MVP
+Apache DataFusion    Rust-native analytical queries inside edge agent or reporting service    Phase 2
+OpenTelemetry    Trace cache decisions, agent sync behavior, failed fetches, model recommendations    MVP
+MCP    Let an AI/admin agent query cache status, generate preload plans, inspect incidents    Phase 2
+OpenAPI Tool Calling    Expose safe HTTP tools to agents and admin automations    Phase 2
+Ollama / llama.cpp    Local model for summarizing documents and generating cache recommendations offline    Phase 2
+vLLM / SGLang    High-throughput central model serving if deployed in stronger infra    Phase 3
+Wasmtime / WASI    Run custom cache-priority and eviction plugins safely    Phase 2
+Fermyon Spin    Lightweight edge functions for custom filters or local tools    Optional
+Cilium Tetragon    Runtime visibility for edge nodes and cache agents    Phase 2
+PQC Libraries    Quantum-safe signing / key exchange for long-life comms    Phase 3
+RISC Zero / Noir    Proof of cache integrity, proof of contact, proof of delivery    Phase 3
+Apache Teaclave    Confidential computation for sensitive manifests or mission/private data    Phase 3
+Flower / NVIDIA FLARE    Federated learning for cache prediction across disconnected sites    Experimental
+Iceberg / Polaris / Trino    Long-term lakehouse for multi-site telemetry and mission analytics    Phase 3
 4. System architecture
 5. Main caching model
 Priority classes
-Priority	Example content	Default policy
-P0	Emergency medical procedures, air/water/power repair, safety alerts	Always pinned
-P1	Engineering manuals, rover/habitat maintenance, mission runbooks	Strongly retained
-P2	Education, training, language, scientific references	Prefetch during good windows
-P3	Local model weights, package registry mirror, SDKs	Retain based on mission profile
-P4	Entertainment, media, non-critical archives	Evict first
-P5	Expired, duplicate, stale, low-demand content	Candidate for removal
+Priority    Example content    Default policy
+P0    Emergency medical procedures, air/water/power repair, safety alerts    Always pinned
+P1    Engineering manuals, rover/habitat maintenance, mission runbooks    Strongly retained
+P2    Education, training, language, scientific references    Prefetch during good windows
+P3    Local model weights, package registry mirror, SDKs    Retain based on mission profile
+P4    Entertainment, media, non-critical archives    Evict first
+P5    Expired, duplicate, stale, low-demand content    Candidate for removal
 Cache score formula
 
 A practical initial score:
 
+```text
 cache_score =
   priority_weight
 + mission_relevance
@@ -209,11 +213,12 @@ cache_score =
 - size_penalty
 - staleness_penalty
 - redundancy_penalty
+```
 
 In MVP, implement this in Rust.
 In Phase 2, allow custom scoring with Wasmtime/WASI policy plugins.
 
-6. Supabase database model
+1. Supabase database model
 
 Recommended tables:
 
@@ -634,7 +639,8 @@ offplanet-cdn/
         ├── docker.yml
         └── security.yml
 9. Suggested README.md
-# Off-Planet CDN
+
+## Off-Planet CDN
 
 A mission-aware CDN and local cache control system for environments where bandwidth is scarce, latency is extreme, and refresh/retry may consume mission-critical resources.
 
@@ -646,17 +652,17 @@ Optimizes what data should be cached locally when bandwidth is scarce and latenc
 
 Core features:
 
-- Priority-aware caching
-- Medical / engineering / manuals-first policy
-- Entertainment and education prefetching
-- Cache eviction under mission constraints
-- Local model registry mirror
-- Local package registry mirror
-- Offline-first search
-- Bandwidth-window-aware preload scheduling
-- Cache simulation before eviction
-- Admin console for mission/cache operators
-- User portal for offline-site users
++ Priority-aware caching
++ Medical / engineering / manuals-first policy
++ Entertainment and education prefetching
++ Cache eviction under mission constraints
++ Local model registry mirror
++ Local package registry mirror
++ Offline-first search
++ Bandwidth-window-aware preload scheduling
++ Cache simulation before eviction
++ Admin console for mission/cache operators
++ User portal for offline-site users
 
 Wild angle:
 
@@ -664,36 +670,36 @@ Wild angle:
 
 ## Use cases
 
-- Lunar or Mars habitat content cache
-- Space mission comms simulation
-- Remote research station offline CDN
-- Ship, aircraft, or polar station local cache
-- Disaster-zone communication cache
-- Hospital or campus emergency knowledge cache
-- Local model/package/document mirror for disconnected engineering teams
++ Lunar or Mars habitat content cache
++ Space mission comms simulation
++ Remote research station offline CDN
++ Ship, aircraft, or polar station local cache
++ Disaster-zone communication cache
++ Hospital or campus emergency knowledge cache
++ Local model/package/document mirror for disconnected engineering teams
 
 ## Architecture
 
 Off-Planet CDN is split into three planes:
 
 1. Frontend Plane
-   - Next.js admin console
-   - Next.js user portal
+   + Next.js admin console
+   + Next.js user portal
 
 2. Control Plane
-   - Go API services
-   - Supabase Postgres metadata
-   - Supabase Auth and RLS
-   - Scheduler and policy engine
-   - Telemetry ingestion
-   - Mirror orchestration
+   + Go API services
+   + Supabase Postgres metadata
+   + Supabase Auth and RLS
+   + Scheduler and policy engine
+   + Telemetry ingestion
+   + Mirror orchestration
 
 3. Edge Plane
-   - Rust cache agent
-   - Rust local cache proxy
-   - Rust eviction engine
-   - Rust package/model registry mirror
-   - Optional WASM policy plugins through Wasmtime/WASI
+   + Rust cache agent
+   + Rust local cache proxy
+   + Rust eviction engine
+   + Rust package/model registry mirror
+   + Optional WASM policy plugins through Wasmtime/WASI
 
 ```mermaid
 flowchart LR
@@ -716,7 +722,10 @@ flowchart LR
 
     API --> OTEL[OpenTelemetry]
     EDGE --> OTEL
-Tech stack
+```
+
+## Tech stack
+
 Frontend
 Next.js
 TypeScript
@@ -757,17 +766,18 @@ Priority model
 
 Content is classified into priority classes.
 
-Priority	Content type	Default behavior
-P0	Emergency medical procedures, safety alerts, life-support manuals	Always pinned
-P1	Engineering manuals, repair guides, mission runbooks	Strongly retained
-P2	Education, training, scientific references	Prefetch during good bandwidth windows
-P3	Package registries, model files, SDKs	Retain according to mission profile
-P4	Entertainment and non-critical media	Evict first
-P5	Expired, duplicate, stale, low-demand content	Candidate for removal
+Priority    Content type    Default behavior
+P0    Emergency medical procedures, safety alerts, life-support manuals    Always pinned
+P1    Engineering manuals, repair guides, mission runbooks    Strongly retained
+P2    Education, training, scientific references    Prefetch during good bandwidth windows
+P3    Package registries, model files, SDKs    Retain according to mission profile
+P4    Entertainment and non-critical media    Evict first
+P5    Expired, duplicate, stale, low-demand content    Candidate for removal
 Cache scoring
 
 Initial scoring model:
 
+```text
 cache_score =
   priority_weight
 + mission_relevance
@@ -779,6 +789,7 @@ cache_score =
 - size_penalty
 - staleness_penalty
 - redundancy_penalty
+```
 
 The MVP implements this directly in Rust.
 
@@ -1030,7 +1041,7 @@ TBD.
 
 ---
 
-# 10. MVP implementation priority
+## 10. MVP implementation priority
 
 | Order | Component | Build first because |
 |---:|---|---|
