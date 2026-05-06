@@ -12,6 +12,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/off-planet-cdn/control-api/internal/config"
+	"github.com/off-planet-cdn/control-api/internal/db"
 	"github.com/off-planet-cdn/control-api/internal/routes"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlphttp"
@@ -69,8 +70,14 @@ func main() {
 		}()
 	}
 
+	dbClient, err := db.New(ctx, cfg.DBUrl)
+	if err != nil {
+		log.Fatalf("connect to database: %v", err)
+	}
+	defer dbClient.Close()
+
 	r := chi.NewRouter()
-	routes.Register(r)
+	routes.Register(r, dbClient)
 
 	addr := ":" + cfg.Port
 	srv := &http.Server{

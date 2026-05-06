@@ -15,7 +15,9 @@
 | Next.js | 27-page app (13 admin + 12 user portal), Supabase auth middleware, `Badge` component + vitest tests, `api-client`, Zod validators, JS SDK, 4 JSON schemas | S1 ✅ |
 | Go SDK | `packages/sdk-go` typed client + API types | S1 ✅ |
 
-**Next:** S2 — Go control API full implementation (sites, nodes, heartbeat endpoints with real Postgres).
+**S2 complete (2026-05-07):** Real Postgres handlers for sites, nodes, heartbeat — DB query layer, `OrgID` context middleware, `JWTAuth` middleware, 9 integration tests in `tests/integration/`.
+
+**Next:** S3 — Rust edge-agent heartbeat loop + content fetch implementation.
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.
