@@ -1,0 +1,11 @@
+{
+  "window_id": "bw-moon-2026-05-07-pass-03",
+  "node_id": "moon-hab-alpha-node-01",
+  "start": "2026-05-07T14:22:00Z",
+  "end": "2026-05-07T16:45:00Z",
+  "bandwidth_bps": 125000000,
+  "reliability_score": 0.94,
+  "link_type": "lunar-relay-Ka-band",
+  "round_trip_latency_ms": 2600,
+  "notes": "High-priority preload window — schedule P0/P1 transfers first"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://offplanet.cdn/schemas/node-heartbeat",
+  "title": "NodeHeartbeat",
+  "type": "object",
+  "required": ["node_id", "status", "cache_used_bytes", "cache_max_bytes"],
+  "properties": {
+    "node_id": { "type": "string", "format": "uuid" },
+    "status": { "type": "string", "enum": ["ONLINE", "OFFLINE", "DEGRADED", "UNKNOWN"] },
+    "cache_used_bytes": { "type": "integer", "minimum": 0 },
+    "cache_max_bytes": { "type": "integer", "minimum": 0 },
+    "agent_version": { "type": "string" }
+  },
+  "additionalProperties": false
+}

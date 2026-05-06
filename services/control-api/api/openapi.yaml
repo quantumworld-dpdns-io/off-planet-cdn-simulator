@@ -1,0 +1,343 @@
+openapi: "3.1.0"
+info:
+  title: Off-Planet CDN Control API
+  version: "0.1.0"
+  description: Priority-aware CDN management API for Moon/Mars habitat deployments.
+
+servers:
+  - url: http://localhost:8080
+    description: Local development
+
+paths:
+  /v1/health:
+    get:
+      operationId: getHealth
+      summary: Health check
+      tags: [System]
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+  /v1/sites:
+    get:
+      operationId: listSites
+      summary: List all sites
+      tags: [Sites]
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: List of sites
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Site"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+    post:
+      operationId: createSite
+      summary: Create a new site
+      tags: [Sites]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSiteRequest"
+      responses:
+        "201":
+          description: Site created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Site"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /v1/nodes:
+    get:
+      operationId: listNodes
+      summary: List all nodes
+      tags: [Nodes]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: site_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filter nodes by site
+      responses:
+        "200":
+          description: List of nodes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Node"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /v1/nodes/register:
+    post:
+      operationId: registerNode
+      summary: Register a new edge node
+      tags: [Nodes]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterNodeRequest"
+      responses:
+        "201":
+          description: Node registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Node"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /v1/nodes/{node_id}/heartbeat:
+    post:
+      operationId: nodeHeartbeat
+      summary: Send node heartbeat with current metrics
+      tags: [Nodes]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: node_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HeartbeatRequest"
+      responses:
+        "200":
+          description: Heartbeat accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HeartbeatResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    BadRequest:
+      description: Invalid request payload
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Unauthorized:
+      description: Missing or invalid JWT token
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        service:
+          type: string
+          example: control-api
+        version:
+          type: string
+          example: "0.1.0"
+      required: [status, service, version]
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
+    Site:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        org_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        location:
+          type: string
+          description: Human-readable location (e.g. "Mare Tranquillitatis, Moon")
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required: [id, org_id, name, location]
+
+    CreateSiteRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        location:
+          type: string
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+      required: [name, location]
+
+    Node:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        site_id:
+          type: string
+          format: uuid
+        hostname:
+          type: string
+        status:
+          type: string
+          enum: [online, offline, degraded]
+        capacity_bytes:
+          type: integer
+          format: int64
+        used_bytes:
+          type: integer
+          format: int64
+        last_heartbeat:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required: [id, site_id, hostname, status]
+
+    RegisterNodeRequest:
+      type: object
+      properties:
+        site_id:
+          type: string
+          format: uuid
+        hostname:
+          type: string
+        capacity_bytes:
+          type: integer
+          format: int64
+      required: [site_id, hostname, capacity_bytes]
+
+    HeartbeatRequest:
+      type: object
+      properties:
+        used_bytes:
+          type: integer
+          format: int64
+        cpu_percent:
+          type: number
+          format: double
+        mem_percent:
+          type: number
+          format: double
+      required: [used_bytes]
+
+    HeartbeatResponse:
+      type: object
+      properties:
+        received_at:
+          type: string
+          format: date-time
+      required: [received_at]
+
+    CacheObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        node_id:
+          type: string
+          format: uuid
+        key:
+          type: string
+        url:
+          type: string
+          format: uri
+        size_bytes:
+          type: integer
+          format: int64
+        priority:
+          type: integer
+        pinned:
+          type: boolean
+        score:
+          type: number
+          format: double
+        content_type:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required: [id, node_id, key, url, size_bytes]

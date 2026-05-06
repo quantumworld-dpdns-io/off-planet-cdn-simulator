@@ -1,0 +1,30 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/shared",
+    "crates/edge-agent",
+    "crates/cache-proxy",
+    "crates/eviction-engine",
+    "crates/registry-mirror",
+    "crates/content-indexer",
+    "crates/wasm-policy-runner",
+]
+
+[workspace.dependencies]
+tokio = { version = "1", features = ["full"] }
+axum = { version = "0.7", features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+reqwest = { version = "0.12", features = ["json", "stream"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+opentelemetry = { version = "0.22", features = ["trace"] }
+opentelemetry-otlp = { version = "0.15", features = ["http-proto"] }
+opentelemetry_sdk = { version = "0.22", features = ["rt-tokio"] }
+anyhow = "1"
+thiserror = "1"
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+redis = { version = "0.25", features = ["tokio-comp", "aio"] }
+tower = "0.4"
+tower-http = { version = "0.5", features = ["trace", "cors"] }

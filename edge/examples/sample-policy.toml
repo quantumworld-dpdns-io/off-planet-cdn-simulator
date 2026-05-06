@@ -1,0 +1,33 @@
+# Off-Planet CDN — Sample Eviction & Caching Policy
+# Applied by wasm-policy-runner at eviction decision time.
+
+[policy]
+name = "moon-habitat-default"
+version = "1.0.0"
+description = "Priority-aware caching policy for lunar habitat edge nodes"
+
+[[rules]]
+id = "pin-p0-always"
+priority_class = "P0"
+action = "pin"
+description = "All P0 objects (medical, life-safety) are permanently pinned and may never be evicted"
+conditions = []
+
+[[rules]]
+id = "prefetch-p1-on-window"
+priority_class = "P1"
+action = "prefetch"
+description = "P1 objects (engineering data, critical ops) are eagerly prefetched during every available bandwidth window"
+conditions = [
+    { field = "bandwidth_window_active", op = "eq", value = true },
+    { field = "reliability_score", op = "gte", value = 0.80 },
+]
+
+[[rules]]
+id = "evict-p4-first"
+priority_class = "P4"
+action = "evict_first"
+description = "P4 objects (entertainment, non-essential media) are the first candidates for eviction when cache pressure exceeds 85%"
+conditions = [
+    { field = "cache_fill_ratio", op = "gte", value = 0.85 },
+]

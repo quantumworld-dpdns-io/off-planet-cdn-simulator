@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://offplanet.cdn/schemas/cache-object",
+  "title": "CacheObject",
+  "type": "object",
+  "required": ["name", "source_url", "priority_class_id", "site_id", "size_bytes"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "source_url": { "type": "string", "format": "uri" },
+    "priority_class_id": { "type": "string", "format": "uuid" },
+    "site_id": { "type": "string", "format": "uuid" },
+    "size_bytes": { "type": "integer", "minimum": 0 },
+    "content_hash": { "type": "string" },
+    "content_type": { "type": "string" },
+    "pinned": { "type": "boolean", "default": false },
+    "tags": { "type": "array", "items": { "type": "string" }, "default": [] },
+    "metadata": { "type": "object" }
+  },
+  "additionalProperties": false
+}

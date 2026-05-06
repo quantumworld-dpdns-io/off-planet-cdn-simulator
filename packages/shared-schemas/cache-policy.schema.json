@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://offplanet.cdn/schemas/cache-policy",
+  "title": "CachePolicy",
+  "type": "object",
+  "required": ["name", "site_id"],
+  "properties": {
+    "name": { "type": "string", "minLength": 1 },
+    "site_id": { "type": "string", "format": "uuid" },
+    "description": { "type": "string" },
+    "enabled": { "type": "boolean", "default": true },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["priority_class_id", "action"],
+        "properties": {
+          "priority_class_id": { "type": "string", "format": "uuid" },
+          "action": { "type": "string", "enum": ["PIN", "PREFETCH", "EVICT_FIRST", "IGNORE"] },
+          "params": { "type": "object" },
+          "sort_order": { "type": "integer", "default": 0 }
+        }
+      }
+    }
+  }
+}
