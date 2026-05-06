@@ -7,12 +7,14 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/off-planet-cdn/control-api/internal/config"
 	"github.com/off-planet-cdn/control-api/internal/db"
+	cdnredis "github.com/off-planet-cdn/control-api/internal/redis"
 	"github.com/off-planet-cdn/control-api/internal/routes"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlphttp"
@@ -76,8 +78,15 @@ func main() {
 	}
 	defer dbClient.Close()
 
+	redisAddr := cfg.RedisURL
+	if after, found := strings.CutPrefix(redisAddr, "redis://"); found {
+		redisAddr = after
+	}
+	redisClient := cdnredis.New(redisAddr)
+	defer redisClient.Close()
+
 	r := chi.NewRouter()
-	routes.Register(r, dbClient)
+	routes.Register(r, dbClient, redisClient)
 
 	addr := ":" + cfg.Port
 	srv := &http.Server{
