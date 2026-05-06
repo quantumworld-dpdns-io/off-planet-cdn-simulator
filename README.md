@@ -17,7 +17,9 @@
 
 **S2 complete (2026-05-07):** Real Postgres handlers for sites, nodes, heartbeat — DB query layer, `OrgID` context middleware, `JWTAuth` middleware, 9 integration tests in `tests/integration/`.
 
-**Next:** S3 — Rust edge-agent heartbeat loop + content fetch implementation.
+**S3 complete (2026-05-07):** Rust edge-agent fully live — 30s heartbeat loop, 15s preload-job poll, content-addressable `fetch_object`, full local API (`/local/cache/status` with real disk measurement, `/local/cache/fetch`, `/local/cache/preload`, `/local/policy/reload`), 7 Axum router tests. Build: ✅ clean.
+
+**Next:** S4 — Cache objects + policies + preload jobs (control API full CRUD).
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.

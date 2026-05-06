@@ -31,7 +31,7 @@
 | Sprint | Deliverable | Status |
 |---|---|---|
 | S2 | Go control API — sites, nodes, heartbeat full implementation | ✅ DONE |
-| S3 | Rust edge-agent — heartbeat loop + fetch implementation | 🔄 IN PROGRESS |
+| S3 | Rust edge-agent — heartbeat loop + fetch implementation | ✅ DONE |
 | S4 | Cache objects + policies + preload jobs (control API) | ⏳ QUEUED |
 | S5 | Go scheduler — contact window check, dispatch to edge | ⏳ QUEUED |
 | S6 | Rust cache-proxy — hit/miss + X-Cache headers | ⏳ QUEUED |
