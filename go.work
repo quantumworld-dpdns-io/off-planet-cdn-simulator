@@ -1,0 +1,10 @@
+go 1.22
+
+use (
+    ./services/control-api
+    ./services/scheduler
+    ./services/telemetry-ingest
+    ./services/policy-engine
+    ./services/mcp-server
+    ./packages/sdk-go
+)

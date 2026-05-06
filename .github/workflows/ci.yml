@@ -1,15 +1,13 @@
 name: CI
-
 on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Placeholder build step
-        run: echo "Add your build/test commands here"
+  go:
+    uses: ./.github/workflows/go.yml
+  rust:
+    uses: ./.github/workflows/rust.yml
+  web:
+    uses: ./.github/workflows/web.yml
