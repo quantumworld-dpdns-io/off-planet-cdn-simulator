@@ -17,16 +17,16 @@ import (
 	cdnredis "github.com/off-planet-cdn/control-api/internal/redis"
 	"github.com/off-planet-cdn/control-api/internal/routes"
 	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/exporters/otlp/otlphttp"
+	otlptracehttp "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.24.0"
 )
 
 func initTracer(ctx context.Context, endpoint string) (*sdktrace.TracerProvider, error) {
-	exp, err := otlphttp.New(ctx,
-		otlphttp.WithEndpoint(endpoint),
-		otlphttp.WithInsecure(),
+	exp, err := otlptracehttp.New(ctx,
+		otlptracehttp.WithEndpoint(endpoint),
+		otlptracehttp.WithInsecure(),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("create OTLP exporter: %w", err)
