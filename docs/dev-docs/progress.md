@@ -9,11 +9,11 @@
 
 | Agent | Scope | Status | Files |
 |---|---|---|---|
-| A — Root config | `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `Makefile`, `docker-compose.yml`, `.env.example`, `go.work`, `.github/workflows/` | 🔄 IN PROGRESS | — |
-| B — Supabase | `supabase/config.toml`, migrations 0001–0007, `seed.sql`, edge function stubs | 🔄 IN PROGRESS | — |
+| A — Root config | `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `Makefile`, `docker-compose.yml`, `.env.example`, `go.work`, `.github/workflows/` | ✅ DONE | 7 root files, 6 CI workflows, 4 infra scripts, `infra/otel/config.yaml` |
+| B — Supabase | `supabase/config.toml`, migrations 0001–0007, `seed.sql`, edge function stubs | ✅ DONE | 11 files — all 28 tables, RLS, monthly partitions, demo seed data |
 | C — Go services | `services/control-api/`, `services/scheduler/`, `services/telemetry-ingest/`, `services/policy-engine/`, `services/mcp-server/` | 🔄 IN PROGRESS | — |
 | D — Rust edge | `edge/Cargo.toml`, `edge/crates/shared/`, `edge/crates/edge-agent/`, `edge/crates/cache-proxy/`, `edge/crates/eviction-engine/` stubs | 🔄 IN PROGRESS | — |
-| E — Frontend | `apps/web/`, `packages/shared-schemas/`, `packages/sdk-js/` | 🔄 IN PROGRESS | — |
+| E — Frontend | `apps/web/`, `packages/shared-schemas/`, `packages/sdk-js/` | 🔄 IN PROGRESS (re-run) | — |
 
 ---
 
