@@ -1,0 +1,36 @@
+{
+  "manifest_version": 1,
+  "node_id": "moon-hab-alpha-node-01",
+  "site_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "generated_at": "2026-05-07T00:00:00Z",
+  "objects": [
+    {
+      "object_id": "00000000-0000-0000-0000-000000000001",
+      "name": "emergency-medical-protocols-v4.2.pdf",
+      "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 52428800,
+      "priority": "P0",
+      "pinned": true,
+      "storage_path": "/cache/p0/emergency-medical-protocols-v4.2.pdf"
+    },
+    {
+      "object_id": "00000000-0000-0000-0000-000000000002",
+      "name": "habitat-structural-cad-schematics-rev9.zip",
+      "content_hash": "sha256:a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+      "size_bytes": 1073741824,
+      "priority": "P1",
+      "pinned": false,
+      "storage_path": "/cache/p1/habitat-structural-cad-schematics-rev9.zip"
+    },
+    {
+      "object_id": "00000000-0000-0000-0000-000000000003",
+      "name": "crew-entertainment-pack-movies-2026-q1.tar",
+      "content_hash": "sha256:6dcd4ce23d88e2ee9568ba546c007c63d9131f668e9c1b3a6c503114aa1f0ce8",
+      "size_bytes": 53687091200,
+      "priority": "P4",
+      "pinned": false,
+      "storage_path": "/cache/p4/crew-entertainment-pack-movies-2026-q1.tar"
+    }
+  ],
+  "signature": null
+}
