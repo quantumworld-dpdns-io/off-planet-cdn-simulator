@@ -2,6 +2,26 @@
 
 > Off-planet CDN simulator – priority-aware caching simulator for Moon/Mars habitats where bandwidth is extremely scarce
 
+## Implementation Status
+
+**Sprint S1 complete — 2026-05-07** | ~163 files scaffolded across all layers.
+
+| Layer | What's built | Sprint |
+|---|---|---|
+| Monorepo | `package.json`, `turbo.json`, `Makefile`, `docker-compose.yml`, `go.work`, `.env.example`, CI workflows (Go/Rust/Web/Docker/Security), OTel Collector config, infra scripts | S1 ✅ |
+| Supabase | All 28 tables across 7 migrations, RLS org-isolation policies, monthly partitions for heartbeats + telemetry, demo seed data | S1 ✅ |
+| Go control API | `control-api`, `scheduler`, `telemetry-ingest`, `policy-engine`, `mcp-server` skeletons — health endpoints, config, middleware, OpenAPI spec, Dockerfiles | S1 ✅ |
+| Rust edge | 7-crate workspace — `shared` types/errors/crypto/manifests, `edge-agent` + `cache-proxy` Axum skeletons, `eviction-engine` with scoring formula + 11 unit tests, registry/indexer/wasm stubs | S1 ✅ |
+| Next.js | 27-page app (13 admin + 12 user portal), Supabase auth middleware, `Badge` component + vitest tests, `api-client`, Zod validators, JS SDK, 4 JSON schemas | S1 ✅ |
+| Go SDK | `packages/sdk-go` typed client + API types | S1 ✅ |
+
+**Next:** S2 — Go control API full implementation (sites, nodes, heartbeat endpoints with real Postgres).
+
+See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
+See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.
+
+---
+
 ## Overview
 
 A content-distribution simulator for Moon/Mars habitats, research bases, and remote terrestrial regions.
