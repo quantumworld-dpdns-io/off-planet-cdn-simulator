@@ -29,7 +29,9 @@
 
 **S8 complete (2026-05-07):** User portal fully live — connection status banner (live node health), category hub, recently cached content on home; per-priority content pages (P0 medical, P1 engineering + manuals, P2 education, P4 entertainment) each fetching `ACTIVE` objects with tag chips + Open links; client-side search over names/types/tags; downloads page with in-progress/completed job sections; offline status page with aggregate + per-node cache fill bars and next bandwidth window. Zero tsc errors.
 
-**Next:** S9 — Rust eviction engine (full scoring + simulator + admin page integration).
+**S9 complete (2026-05-07):** Eviction engine wired end-to-end — `POST /local/eviction/simulate` on edge-agent (greedy largest-first, walks real cache dir, returns `can_meet_target` + candidate list); admin eviction simulator page fully interactive (site selector, target MB input, object stats summary, client-side pinned-exclusion + largest-first simulation, results table with cumulative-freed progress bars). 11 eviction-engine unit tests still passing. Zero tsc errors.
+
+**Next:** S10 — Bandwidth windows + preload optimizer.
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.
