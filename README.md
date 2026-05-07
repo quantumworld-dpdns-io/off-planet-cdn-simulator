@@ -21,7 +21,9 @@
 
 **S4 complete (2026-05-07):** Cache objects (CRUD + pin/unpin + audit log), policies (CRUD), preload jobs (create → Redis enqueue → cancel), telemetry ingest, audit log list. OTel exporter path fixed (`otlptracehttp v1.24.0`). Build: ✅ `go build ./...` clean.
 
-**Next:** S5 — Go scheduler dispatch (contact-window check + priority-ordered job delivery to edge).
+**S5 complete (2026-05-07):** Go scheduler fully live — 10s dispatch loop, `contactwindows.Checker` (bandwidth-window gating with dev-open default), `optimizer.Optimize` (P0→P5 priority sort, size-ascending tiebreak), `optimizer.FitInBudget` (greedy bandwidth cap), typed Redis queue client, `POST /local/cache/preload` delivery to edge agent, per-job `RUNNING/DONE/FAILED` state transitions. Build: ✅ clean.
+
+**Next:** S6 — Rust cache-proxy (hit/miss + X-Cache headers).
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.

@@ -2,42 +2,51 @@ package queues
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/redis/go-redis/v9"
 )
 
-// Queue wraps a go-redis client for simple list-based job queuing.
-type Queue struct {
-	client *redis.Client
+const (
+	PendingJobsQueue = "preload:jobs:pending"
+	CancelledJobsSet = "preload:jobs:cancelled"
+)
+
+type Client struct {
+	rdb *redis.Client
 }
 
-// New creates a Queue from a Redis URL.
-func New(redisURL string) (*Queue, error) {
-	opts, err := redis.ParseURL(redisURL)
-	if err != nil {
-		return nil, fmt.Errorf("parse redis url: %w", err)
-	}
-	return &Queue{client: redis.NewClient(opts)}, nil
+func New(addr string) *Client {
+	rdb := redis.NewClient(&redis.Options{Addr: addr})
+	return &Client{rdb: rdb}
 }
 
-// Enqueue pushes a JSON payload to the tail of the named list (RPUSH).
-func (q *Queue) Enqueue(ctx context.Context, queueName, payload string) error {
-	if err := q.client.RPush(ctx, queueName, payload).Err(); err != nil {
-		return fmt.Errorf("enqueue %s: %w", queueName, err)
-	}
-	return nil
+func (c *Client) Close() error {
+	return c.rdb.Close()
 }
 
-// Dequeue pops a payload from the head of the named list (LPOP).
-// Returns ("", nil) when the queue is empty.
-func (q *Queue) Dequeue(ctx context.Context, queueName string) (string, error) {
-	val, err := q.client.LPop(ctx, queueName).Result()
+func (c *Client) Ping(ctx context.Context) error {
+	return c.rdb.Ping(ctx).Err()
+}
+
+// Enqueue pushes a job ID onto the pending queue.
+func (c *Client) Enqueue(ctx context.Context, jobID string) error {
+	return c.rdb.RPush(ctx, PendingJobsQueue, jobID).Err()
+}
+
+// Dequeue pops a job ID from the pending queue. Returns ("", nil) if empty.
+func (c *Client) Dequeue(ctx context.Context) (string, error) {
+	result, err := c.rdb.LPop(ctx, PendingJobsQueue).Result()
 	if err == redis.Nil {
 		return "", nil
 	}
-	if err != nil {
-		return "", fmt.Errorf("dequeue %s: %w", queueName, err)
-	}
-	return val, nil
+	return result, err
+}
+
+// IsCancelled returns true if the job was cancelled via the cancellation set.
+func (c *Client) IsCancelled(ctx context.Context, jobID string) (bool, error) {
+	return c.rdb.SIsMember(ctx, CancelledJobsSet, jobID).Result()
+}
+
+// QueueLength returns the current length of the pending jobs queue.
+func (c *Client) QueueLength(ctx context.Context) (int64, error) {
+	return c.rdb.LLen(ctx, PendingJobsQueue).Result()
 }

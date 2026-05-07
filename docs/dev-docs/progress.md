@@ -1,7 +1,7 @@
 # Implementation Progress
 
 > Auto-updated by monitor agent. Do not edit manually.
-> Last updated: 2026-05-07
+> Last updated: 2026-05-07 (S5 complete)
 
 ---
 
@@ -33,7 +33,7 @@
 | S2 | Go control API — sites, nodes, heartbeat full implementation | ✅ DONE |
 | S3 | Rust edge-agent — heartbeat loop + fetch implementation | ✅ DONE |
 | S4 | Cache objects + policies + preload jobs (control API) | ✅ DONE |
-| S5 | Go scheduler — contact window check, dispatch to edge | ⏳ QUEUED |
+| S5 | Go scheduler — contact window check, dispatch to edge | ✅ DONE |
 | S6 | Rust cache-proxy — hit/miss + X-Cache headers | ⏳ QUEUED |
 | S7 | Next.js admin console — all Phase 1 pages with real data | ⏳ QUEUED |
 | S8 | Next.js user portal — Phase 1 pages with real data | ⏳ QUEUED |
