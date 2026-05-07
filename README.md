@@ -33,7 +33,9 @@
 
 **S10 complete (2026-05-07):** Go control API fully aligned — `BandwidthWindow` model, `ListBandwidthWindows` + `CreateBandwidthWindow` DB methods, `BandwidthWindowHandler` (List + Create), `GET /v1/nodes/{node_id}` + `GET /v1/policies/{policy_id}` handlers added, route paths fixed to match frontend (`/v1/objects`, `/v1/preload-jobs`). Admin bandwidth-windows page enhanced with 6-field Create form. Build: ✅ clean.
 
-**Next:** S11 — DuckDB analytics + dashboard charts.
+**S11 complete (2026-05-07):** Analytics endpoints added to control-api — `GET /v1/analytics/cache-hits` (hourly hit/miss timeseries over 24h), `GET /v1/analytics/priority-distribution` (ACTIVE object counts + bytes by P0–P5), `GET /v1/analytics/node-fill` (used/max per online node). Admin dashboard enhanced with 3-column chart grid: `CacheHitChart` (AreaChart), `PriorityDistributionChart` (PieChart), `NodeFillChart` (stacked BarChart) via Recharts. Build: ✅ Go clean, zero new TS errors.
+
+**Next:** S12 — Registry mirrors (npm, PyPI, crates.io, OCI, model).
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.
