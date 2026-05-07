@@ -34,7 +34,7 @@
 | S3 | Rust edge-agent — heartbeat loop + fetch implementation | ✅ DONE |
 | S4 | Cache objects + policies + preload jobs (control API) | ✅ DONE |
 | S5 | Go scheduler — contact window check, dispatch to edge | ✅ DONE |
-| S6 | Rust cache-proxy — hit/miss + X-Cache headers | ⏳ QUEUED |
+| S6 | Rust cache-proxy — hit/miss + X-Cache headers | ✅ DONE |
 | S7 | Next.js admin console — all Phase 1 pages with real data | ⏳ QUEUED |
 | S8 | Next.js user portal — Phase 1 pages with real data | ⏳ QUEUED |
 | S9 | Rust eviction engine — full scoring + simulator + admin page | ⏳ QUEUED |

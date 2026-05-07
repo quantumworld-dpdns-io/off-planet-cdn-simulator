@@ -23,7 +23,9 @@
 
 **S5 complete (2026-05-07):** Go scheduler fully live — 10s dispatch loop, `contactwindows.Checker` (bandwidth-window gating with dev-open default), `optimizer.Optimize` (P0→P5 priority sort, size-ascending tiebreak), `optimizer.FitInBudget` (greedy bandwidth cap), typed Redis queue client, `POST /local/cache/preload` delivery to edge agent, per-job `RUNNING/DONE/FAILED` state transitions. Build: ✅ clean.
 
-**Next:** S6 — Rust cache-proxy (hit/miss + X-Cache headers).
+**S6 complete (2026-05-07):** Rust cache-proxy fully live — HIT/MISS handler with `X-Cache`, `X-Priority-Class`, `X-Offline-Available` headers; upstream `fetch_and_store` on MISS; `Range: bytes=` partial content (206); ETag + If-None-Match + If-Modified-Since revalidation (304); `config.rs` with env-driven `CACHE_DIR`, `EDGE_AGENT_URL`, `UPSTREAM_URL`. 14 unit tests passing. Build: ✅ clean.
+
+**Next:** S7 — Next.js admin console (all Phase 1 pages with real data).
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.
