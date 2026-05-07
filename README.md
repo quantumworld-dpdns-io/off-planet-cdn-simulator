@@ -25,7 +25,9 @@
 
 **S6 complete (2026-05-07):** Rust cache-proxy fully live — HIT/MISS handler with `X-Cache`, `X-Priority-Class`, `X-Offline-Available` headers; upstream `fetch_and_store` on MISS; `Range: bytes=` partial content (206); ETag + If-None-Match + If-Modified-Since revalidation (304); `config.rs` with env-driven `CACHE_DIR`, `EDGE_AGENT_URL`, `UPSTREAM_URL`. 14 unit tests passing. Build: ✅ clean.
 
-**Next:** S7 — Next.js admin console (all Phase 1 pages with real data).
+**S7 complete (2026-05-07):** Next.js admin console fully live — typed API client with `X-Org-ID` dev auth header, 7 React hooks (`useSites`, `useNodes`, `useCacheObjects`, `usePolicies`, `usePreloadJobs`, `useAuditLogs`, `useBandwidthWindows`), 5 shared UI components (`StatusBadge`, `PriorityBadge`, `CacheFillBar`, `LoadingSpinner`, `JobStatusBadge`), and 13 admin pages wired with real data: dashboard stat cards, sites + Add Site form, nodes list + detail, content catalog + pin/unpin, cache policies, preload jobs + cancel, audit logs, bandwidth windows. Zero tsc errors in S7 files.
+
+**Next:** S8 — Next.js user portal (Phase 1 pages with real data).
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.
