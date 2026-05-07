@@ -19,7 +19,9 @@
 
 **S3 complete (2026-05-07):** Rust edge-agent fully live — 30s heartbeat loop, 15s preload-job poll, content-addressable `fetch_object`, full local API (`/local/cache/status` with real disk measurement, `/local/cache/fetch`, `/local/cache/preload`, `/local/policy/reload`), 7 Axum router tests. Build: ✅ clean.
 
-**Next:** S4 — Cache objects + policies + preload jobs (control API full CRUD).
+**S4 complete (2026-05-07):** Cache objects (CRUD + pin/unpin + audit log), policies (CRUD), preload jobs (create → Redis enqueue → cancel), telemetry ingest, audit log list. OTel exporter path fixed (`otlptracehttp v1.24.0`). Build: ✅ `go build ./...` clean.
+
+**Next:** S5 — Go scheduler dispatch (contact-window check + priority-ordered job delivery to edge).
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.

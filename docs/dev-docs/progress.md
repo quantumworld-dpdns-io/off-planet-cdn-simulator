@@ -32,7 +32,7 @@
 |---|---|---|
 | S2 | Go control API — sites, nodes, heartbeat full implementation | ✅ DONE |
 | S3 | Rust edge-agent — heartbeat loop + fetch implementation | ✅ DONE |
-| S4 | Cache objects + policies + preload jobs (control API) | 🔄 IN PROGRESS |
+| S4 | Cache objects + policies + preload jobs (control API) | ✅ DONE |
 | S5 | Go scheduler — contact window check, dispatch to edge | ⏳ QUEUED |
 | S6 | Rust cache-proxy — hit/miss + X-Cache headers | ⏳ QUEUED |
 | S7 | Next.js admin console — all Phase 1 pages with real data | ⏳ QUEUED |
