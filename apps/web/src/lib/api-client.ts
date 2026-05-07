@@ -1,5 +1,28 @@
 import type { Site, Node, CacheObject, CachePolicy, PreloadJob, AuditLog, BandwidthWindow } from "@/types";
 
+export interface MirrorSource {
+  id: string;
+  org_id: string;
+  registry_type: string;
+  upstream_url: string;
+  label?: string;
+  enabled: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface MirrorArtifact {
+  id: string;
+  org_id: string;
+  source_id: string;
+  name: string;
+  version: string;
+  size_bytes: number;
+  storage_path?: string;
+  synced_at?: string;
+  created_at: string;
+}
+
 export interface CacheHitPoint { hour: string; hits: number; misses: number }
 export interface PriorityBucket { level: string; count: number; total_bytes: number }
 export interface NodeFill { node_id: string; node_name: string; used_bytes: number; max_bytes: number }
@@ -93,5 +116,14 @@ export const api = {
     cacheHits: () => apiFetch<{ points: CacheHitPoint[] }>("/v1/analytics/cache-hits"),
     priorityDistribution: () => apiFetch<{ buckets: PriorityBucket[] }>("/v1/analytics/priority-distribution"),
     nodeFill: () => apiFetch<{ nodes: NodeFill[] }>("/v1/analytics/node-fill"),
+  },
+
+  mirrors: {
+    listSources: () =>
+      apiFetch<{ sources: MirrorSource[] }>("/v1/mirrors/sources"),
+    createSource: (body: { registry_type: string; upstream_url: string; label?: string }) =>
+      apiFetch<MirrorSource>("/v1/mirrors/sources", { method: "POST", body: JSON.stringify(body) }),
+    listArtifacts: (sourceId?: string) =>
+      apiFetch<{ artifacts: MirrorArtifact[] }>(`/v1/mirrors/artifacts${toQuery({ source_id: sourceId })}`),
   },
 };

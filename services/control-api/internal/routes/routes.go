@@ -70,4 +70,10 @@ func Register(r *chi.Mux, dbClient *db.Client, redisClient *cdnredis.Client) {
 
 	auditLogs := &handlers.AuditLogHandler{DB: dbClient}
 	r.Get("/v1/audit-logs", auditLogs.List)
+
+	// Mirrors
+	mirrors := &handlers.MirrorHandler{DB: dbClient}
+	r.Get("/v1/mirrors/sources", mirrors.ListSources)
+	r.Post("/v1/mirrors/sources", mirrors.CreateSource)
+	r.Get("/v1/mirrors/artifacts", mirrors.ListArtifacts)
 }

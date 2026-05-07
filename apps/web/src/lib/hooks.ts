@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { api } from "./api-client";
+import type { MirrorSource, MirrorArtifact } from "./api-client";
 import type { Site, Node, CacheObject, CachePolicy, PreloadJob, AuditLog, BandwidthWindow } from "@/types";
 
 type HookResult<T> = { data: T | null; loading: boolean; error: string | null; refetch: () => void };
@@ -96,4 +97,18 @@ export function usePriorityDistribution() {
 export function useNodeFill() {
   const fetcher = useCallback(() => api.analytics.nodeFill(), []);
   return useApiData(fetcher);
+}
+
+export function useMirrorSources() {
+  const fetcher = useCallback(() => api.mirrors.listSources().then(r => r.sources), []);
+  return useApiData<MirrorSource[]>(fetcher);
+}
+
+export function useMirrorArtifacts(sourceId?: string) {
+  const fetcher = useCallback(
+    () => api.mirrors.listArtifacts(sourceId).then(r => r.artifacts),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sourceId ?? ""]
+  );
+  return useApiData<MirrorArtifact[]>(fetcher);
 }

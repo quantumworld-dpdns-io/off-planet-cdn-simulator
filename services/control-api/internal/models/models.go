@@ -122,3 +122,26 @@ type BandwidthWindow struct {
 	ReliabilityScore float64   `json:"reliability_score"`
 	CreatedAt        time.Time `json:"created_at"`
 }
+
+type MirrorSource struct {
+	ID           string    `json:"id"`
+	OrgID        string    `json:"org_id"`
+	RegistryType string    `json:"registry_type"`
+	UpstreamURL  string    `json:"upstream_url"`
+	Label        string    `json:"label,omitempty"`
+	Enabled      bool      `json:"enabled"`
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
+}
+
+type MirrorArtifact struct {
+	ID          string     `json:"id"`
+	OrgID       string     `json:"org_id"`
+	SourceID    string     `json:"source_id"`
+	Name        string     `json:"name"`
+	Version     string     `json:"version"`
+	SizeBytes   int64      `json:"size_bytes"`
+	StoragePath string     `json:"storage_path,omitempty"`
+	SyncedAt    *time.Time `json:"synced_at,omitempty"`
+	CreatedAt   time.Time  `json:"created_at"`
+}

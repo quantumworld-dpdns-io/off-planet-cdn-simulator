@@ -35,7 +35,9 @@
 
 **S11 complete (2026-05-07):** Analytics endpoints added to control-api — `GET /v1/analytics/cache-hits` (hourly hit/miss timeseries over 24h), `GET /v1/analytics/priority-distribution` (ACTIVE object counts + bytes by P0–P5), `GET /v1/analytics/node-fill` (used/max per online node). Admin dashboard enhanced with 3-column chart grid: `CacheHitChart` (AreaChart), `PriorityDistributionChart` (PieChart), `NodeFillChart` (stacked BarChart) via Recharts. Build: ✅ Go clean, zero new TS errors.
 
-**Next:** S12 — Registry mirrors (npm, PyPI, crates.io, OCI, model).
+**S12 complete (2026-05-07):** Registry-mirror Axum service fully live — real sync logic for npm (tarball download), PyPI (.whl/.tar.gz), crates.io (.crate), OCI (metadata JSON), and HuggingFace model cards; `GET /local/mirrors/artifacts` walks mirror dir; `POST /local/mirrors/sync` routes by registry type. Control-api gains `GET/POST /v1/mirrors/sources` + `GET /v1/mirrors/artifacts`. Package-mirrors + model-mirrors admin pages fully wired with Add Source forms, sources tables, and artifacts tables. Build: ✅ Rust clean, Go clean, zero new TS errors.
+
+**Next:** S13 — MCP server + Qdrant semantic search.
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.
