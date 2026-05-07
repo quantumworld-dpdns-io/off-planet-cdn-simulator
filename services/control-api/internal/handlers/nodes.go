@@ -89,3 +89,15 @@ func (h *NodeHandler) Status(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(node)
 }
+
+func (h *NodeHandler) Get(w http.ResponseWriter, r *http.Request) {
+	orgID := db.OrgIDFromContext(r.Context())
+	nodeID := chi.URLParam(r, "node_id")
+	node, err := h.DB.GetNodeStatus(r.Context(), orgID, nodeID)
+	if err != nil {
+		http.Error(w, `{"error":"not found"}`, http.StatusNotFound)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(node)
+}

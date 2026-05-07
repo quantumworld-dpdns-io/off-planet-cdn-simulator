@@ -110,3 +110,15 @@ type AuditLog struct {
 	ResourceID   string    `json:"resource_id,omitempty"`
 	CreatedAt    time.Time `json:"created_at"`
 }
+
+type BandwidthWindow struct {
+	ID               string    `json:"id"`
+	OrgID            string    `json:"org_id"`
+	SiteID           string    `json:"site_id,omitempty"`
+	Label            string    `json:"label,omitempty"`
+	WindowStart      time.Time `json:"window_start"`
+	WindowEnd        time.Time `json:"window_end"`
+	BandwidthBps     int64     `json:"bandwidth_bps"`
+	ReliabilityScore float64   `json:"reliability_score"`
+	CreatedAt        time.Time `json:"created_at"`
+}

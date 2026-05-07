@@ -51,6 +51,24 @@ func (h *PolicyHandler) Create(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(policy)
 }
 
+func (h *PolicyHandler) Get(w http.ResponseWriter, r *http.Request) {
+	orgID := db.OrgIDFromContext(r.Context())
+	policyID := chi.URLParam(r, "policy_id")
+	policies, err := h.DB.ListPolicies(r.Context(), orgID)
+	if err != nil {
+		http.Error(w, `{"error":"database error"}`, http.StatusInternalServerError)
+		return
+	}
+	for _, p := range policies {
+		if p.ID == policyID {
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(p)
+			return
+		}
+	}
+	http.Error(w, `{"error":"not found"}`, http.StatusNotFound)
+}
+
 func (h *PolicyHandler) Update(w http.ResponseWriter, r *http.Request) {
 	orgID := db.OrgIDFromContext(r.Context())
 	policyID := chi.URLParam(r, "policy_id")
