@@ -16,6 +16,7 @@ pub fn router(cfg: Config) -> Router {
         .route("/local/cache/fetch", post(cache_fetch))
         .route("/local/cache/preload", post(cache_preload))
         .route("/local/policy/reload", post(policy_reload))
+        .route("/local/eviction/simulate", post(eviction_simulate))
         .with_state(state)
 }
 
@@ -115,6 +116,79 @@ async fn cache_preload(
 async fn policy_reload() -> Json<Value> {
     tracing::info!("policy reload requested");
     Json(json!({"reloaded": true}))
+}
+
+#[derive(Deserialize)]
+struct SimulateRequest {
+    target_freed_bytes: u64,
+}
+
+#[derive(Serialize)]
+struct EvictionCandidate {
+    object_id: String,
+    size_bytes: u64,
+    cumulative_freed: u64,
+}
+
+#[derive(Serialize)]
+struct SimulateResponse {
+    target_freed_bytes: u64,
+    can_meet_target: bool,
+    freed_bytes: u64,
+    candidates: Vec<EvictionCandidate>,
+}
+
+async fn eviction_simulate(
+    State(cfg): State<Arc<Config>>,
+    Json(req): Json<SimulateRequest>,
+) -> Json<Value> {
+    // Enumerate all files in cache dir with sizes
+    let cache_path = std::path::Path::new(&cfg.cache_dir);
+    let mut files: Vec<(String, u64)> = std::fs::read_dir(cache_path)
+        .map(|entries| {
+            entries
+                .flatten()
+                .filter_map(|e| {
+                    let p = e.path();
+                    if p.is_file() {
+                        let name = p.file_name()?.to_string_lossy().into_owned();
+                        let size = p.metadata().ok()?.len();
+                        Some((name, size))
+                    } else {
+                        None
+                    }
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+
+    // Largest first (greedy)
+    files.sort_by(|a, b| b.1.cmp(&a.1));
+
+    let mut candidates = Vec::new();
+    let mut cumulative: u64 = 0;
+
+    for (object_id, size_bytes) in &files {
+        if cumulative >= req.target_freed_bytes {
+            break;
+        }
+        cumulative += size_bytes;
+        candidates.push(EvictionCandidate {
+            object_id: object_id.clone(),
+            size_bytes: *size_bytes,
+            cumulative_freed: cumulative,
+        });
+    }
+
+    let total_available: u64 = files.iter().map(|(_, s)| s).sum();
+    let can_meet_target = cumulative >= req.target_freed_bytes || total_available == 0;
+
+    Json(serde_json::to_value(SimulateResponse {
+        target_freed_bytes: req.target_freed_bytes,
+        can_meet_target,
+        freed_bytes: cumulative,
+        candidates,
+    }).unwrap_or_else(|_| json!({"error": "serialization failed"})))
 }
 
 fn measure_cache_bytes(cache_dir: &str) -> u64 {
