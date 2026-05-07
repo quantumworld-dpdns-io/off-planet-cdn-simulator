@@ -27,7 +27,9 @@
 
 **S7 complete (2026-05-07):** Next.js admin console fully live — typed API client with `X-Org-ID` dev auth header, 7 React hooks (`useSites`, `useNodes`, `useCacheObjects`, `usePolicies`, `usePreloadJobs`, `useAuditLogs`, `useBandwidthWindows`), 5 shared UI components (`StatusBadge`, `PriorityBadge`, `CacheFillBar`, `LoadingSpinner`, `JobStatusBadge`), and 13 admin pages wired with real data: dashboard stat cards, sites + Add Site form, nodes list + detail, content catalog + pin/unpin, cache policies, preload jobs + cancel, audit logs, bandwidth windows. Zero tsc errors in S7 files.
 
-**Next:** S8 — Next.js user portal (Phase 1 pages with real data).
+**S8 complete (2026-05-07):** User portal fully live — connection status banner (live node health), category hub, recently cached content on home; per-priority content pages (P0 medical, P1 engineering + manuals, P2 education, P4 entertainment) each fetching `ACTIVE` objects with tag chips + Open links; client-side search over names/types/tags; downloads page with in-progress/completed job sections; offline status page with aggregate + per-node cache fill bars and next bandwidth window. Zero tsc errors.
+
+**Next:** S9 — Rust eviction engine (full scoring + simulator + admin page integration).
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.

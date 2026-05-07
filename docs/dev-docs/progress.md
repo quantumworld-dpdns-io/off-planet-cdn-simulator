@@ -36,7 +36,7 @@
 | S5 | Go scheduler — contact window check, dispatch to edge | ✅ DONE |
 | S6 | Rust cache-proxy — hit/miss + X-Cache headers | ✅ DONE |
 | S7 | Next.js admin console — all Phase 1 pages with real data | ✅ DONE |
-| S8 | Next.js user portal — Phase 1 pages with real data | ⏳ QUEUED |
+| S8 | Next.js user portal — Phase 1 pages with real data | ✅ DONE |
 | S9 | Rust eviction engine — full scoring + simulator + admin page | ⏳ QUEUED |
 | S10 | Bandwidth windows + preload optimizer | ⏳ QUEUED |
 | S11 | DuckDB analytics + dashboard charts | ⏳ QUEUED |
