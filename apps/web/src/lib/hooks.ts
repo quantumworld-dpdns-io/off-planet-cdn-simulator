@@ -82,3 +82,18 @@ export function useBandwidthWindows(siteId?: string) {
   );
   return useApiData<BandwidthWindow[]>(fetcher);
 }
+
+export function useCacheHitTimeseries() {
+  const fetcher = useCallback(() => api.analytics.cacheHits(), []);
+  return useApiData(fetcher);
+}
+
+export function usePriorityDistribution() {
+  const fetcher = useCallback(() => api.analytics.priorityDistribution(), []);
+  return useApiData(fetcher);
+}
+
+export function useNodeFill() {
+  const fetcher = useCallback(() => api.analytics.nodeFill(), []);
+  return useApiData(fetcher);
+}

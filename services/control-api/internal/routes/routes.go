@@ -58,6 +58,12 @@ func Register(r *chi.Mux, dbClient *db.Client, redisClient *cdnredis.Client) {
 	r.Get("/v1/bandwidth-windows", bwWindows.List)
 	r.Post("/v1/bandwidth-windows", bwWindows.Create)
 
+	// Analytics
+	analytics := &handlers.AnalyticsHandler{DB: dbClient}
+	r.Get("/v1/analytics/cache-hits", analytics.CacheHits)
+	r.Get("/v1/analytics/priority-distribution", analytics.PriorityDistribution)
+	r.Get("/v1/analytics/node-fill", analytics.NodeFill)
+
 	// Telemetry & audit
 	telemetry := &handlers.TelemetryHandler{DB: dbClient}
 	r.Post("/v1/telemetry/events", telemetry.IngestEvents)

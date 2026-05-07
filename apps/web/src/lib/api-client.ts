@@ -1,5 +1,9 @@
 import type { Site, Node, CacheObject, CachePolicy, PreloadJob, AuditLog, BandwidthWindow } from "@/types";
 
+export interface CacheHitPoint { hour: string; hits: number; misses: number }
+export interface PriorityBucket { level: string; count: number; total_bytes: number }
+export interface NodeFill { node_id: string; node_name: string; used_bytes: number; max_bytes: number }
+
 const BASE_URL = process.env.NEXT_PUBLIC_CONTROL_API_URL ?? "http://localhost:8080";
 const DEV_ORG_ID = process.env.NEXT_PUBLIC_DEV_ORG_ID ?? "00000000-0000-0000-0000-000000000001";
 
@@ -83,5 +87,11 @@ export const api = {
   bandwidthWindows: {
     list: (params?: { site_id?: string }) =>
       apiFetch<{ windows: BandwidthWindow[] }>(`/v1/bandwidth-windows${toQuery(params)}`),
+  },
+
+  analytics: {
+    cacheHits: () => apiFetch<{ points: CacheHitPoint[] }>("/v1/analytics/cache-hits"),
+    priorityDistribution: () => apiFetch<{ buckets: PriorityBucket[] }>("/v1/analytics/priority-distribution"),
+    nodeFill: () => apiFetch<{ nodes: NodeFill[] }>("/v1/analytics/node-fill"),
   },
 };

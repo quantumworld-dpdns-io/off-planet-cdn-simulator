@@ -1,13 +1,17 @@
 "use client";
-import { useSites } from "@/lib/hooks";
-import { useNodes } from "@/lib/hooks";
-import { usePreloadJobs } from "@/lib/hooks";
+import { useSites, useNodes, usePreloadJobs, useCacheHitTimeseries, usePriorityDistribution, useNodeFill } from "@/lib/hooks";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { CacheHitChart } from "@/components/charts/CacheHitChart";
+import { PriorityDistributionChart } from "@/components/charts/PriorityDistributionChart";
+import { NodeFillChart } from "@/components/charts/NodeFillChart";
 
 export default function DashboardPage() {
   const { data: sites, loading: sitesLoading } = useSites();
   const { data: nodes, loading: nodesLoading } = useNodes();
   const { data: jobs, loading: jobsLoading } = usePreloadJobs();
+  const { data: cacheHitsData } = useCacheHitTimeseries();
+  const { data: priorityData } = usePriorityDistribution();
+  const { data: nodeFillData } = useNodeFill();
 
   const loading = sitesLoading || nodesLoading || jobsLoading;
 
@@ -41,6 +45,20 @@ export default function DashboardPage() {
                 <p className="text-3xl font-bold text-gray-900 mt-1">{card.value}</p>
               </div>
             ))}
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+            <div className="bg-white rounded-lg shadow p-6">
+              <h2 className="text-base font-semibold text-gray-800 mb-4">Cache Hit/Miss (24h)</h2>
+              <CacheHitChart points={cacheHitsData?.points ?? []} />
+            </div>
+            <div className="bg-white rounded-lg shadow p-6">
+              <h2 className="text-base font-semibold text-gray-800 mb-4">Priority Distribution</h2>
+              <PriorityDistributionChart buckets={priorityData?.buckets ?? []} />
+            </div>
+            <div className="bg-white rounded-lg shadow p-6">
+              <h2 className="text-base font-semibold text-gray-800 mb-4">Node Cache Fill</h2>
+              <NodeFillChart nodes={nodeFillData?.nodes ?? []} />
+            </div>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-base font-semibold text-gray-800 mb-4">Node Health</h2>
