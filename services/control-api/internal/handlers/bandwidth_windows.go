@@ -1,3 +1,3 @@
 // Package handlers provides HTTP handler implementations.
-// BandwidthWindowHandler is defined in health.go (consolidated for build compatibility).
+// BandwidthWindowHandler is implemented in health.go.
 package handlers

@@ -31,7 +31,9 @@
 
 **S9 complete (2026-05-07):** Eviction engine wired end-to-end — `POST /local/eviction/simulate` on edge-agent (greedy largest-first, walks real cache dir, returns `can_meet_target` + candidate list); admin eviction simulator page fully interactive (site selector, target MB input, object stats summary, client-side pinned-exclusion + largest-first simulation, results table with cumulative-freed progress bars). 11 eviction-engine unit tests still passing. Zero tsc errors.
 
-**Next:** S10 — Bandwidth windows + preload optimizer.
+**S10 complete (2026-05-07):** Go control API fully aligned — `BandwidthWindow` model, `ListBandwidthWindows` + `CreateBandwidthWindow` DB methods, `BandwidthWindowHandler` (List + Create), `GET /v1/nodes/{node_id}` + `GET /v1/policies/{policy_id}` handlers added, route paths fixed to match frontend (`/v1/objects`, `/v1/preload-jobs`). Admin bandwidth-windows page enhanced with 6-field Create form. Build: ✅ clean.
+
+**Next:** S11 — DuckDB analytics + dashboard charts.
 
 See [`docs/dev-docs/progress.md`](docs/dev-docs/progress.md) for full sprint tracking.
 See [`docs/dev-docs/plan.md`](docs/dev-docs/plan.md) for the complete implementation and testing plan.
