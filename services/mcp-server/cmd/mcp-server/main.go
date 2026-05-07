@@ -14,6 +14,89 @@ import (
 	"github.com/off-planet-cdn/mcp-server/internal/tools"
 )
 
+type toolSchema struct {
+	Type       string                 `json:"type"`
+	Properties map[string]schemaProp  `json:"properties,omitempty"`
+	Required   []string               `json:"required,omitempty"`
+}
+
+type schemaProp struct {
+	Type string `json:"type"`
+}
+
+type toolDefinition struct {
+	Name        string     `json:"name"`
+	Description string     `json:"description"`
+	InputSchema toolSchema `json:"input_schema"`
+}
+
+type toolsListResponse struct {
+	Tools []toolDefinition `json:"tools"`
+}
+
+func handleToolsList(w http.ResponseWriter, r *http.Request) {
+	resp := toolsListResponse{
+		Tools: []toolDefinition{
+			{
+				Name:        "cache_status",
+				Description: "Get cache fill ratio and top objects for a node",
+				InputSchema: toolSchema{
+					Type: "object",
+					Properties: map[string]schemaProp{
+						"node_id": {Type: "string"},
+					},
+					Required: []string{"node_id"},
+				},
+			},
+			{
+				Name:        "inspect_node",
+				Description: "Get live diagnostic details for an edge node",
+				InputSchema: toolSchema{
+					Type: "object",
+					Properties: map[string]schemaProp{
+						"node_id": {Type: "string"},
+					},
+					Required: []string{"node_id"},
+				},
+			},
+			{
+				Name:        "generate_preload_plan",
+				Description: "Generate a list of URLs to prefetch for a site",
+				InputSchema: toolSchema{
+					Type: "object",
+					Properties: map[string]schemaProp{
+						"site_id": {Type: "string"},
+						"limit":   {Type: "integer"},
+					},
+				},
+			},
+			{
+				Name:        "simulate_eviction",
+				Description: "Predict which objects would be evicted to meet a space target",
+				InputSchema: toolSchema{
+					Type: "object",
+					Properties: map[string]schemaProp{
+						"site_id":   {Type: "string"},
+						"target_mb": {Type: "number"},
+					},
+				},
+			},
+			{
+				Name:        "summarize_incident",
+				Description: "Summarize recent audit log events as a human-readable incident report",
+				InputSchema: toolSchema{
+					Type: "object",
+					Properties: map[string]schemaProp{
+						"limit": {Type: "integer"},
+					},
+				},
+			},
+		},
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(resp)
+}
+
 // ToolCallRequest is the shape of a POST /tools/call body.
 type ToolCallRequest struct {
 	Tool  string          `json:"tool"`
@@ -96,6 +179,7 @@ func main() {
 		})
 	})
 
+	r.Get("/tools", handleToolsList)
 	r.Post("/tools/call", handleToolCall)
 
 	addr := ":" + port
